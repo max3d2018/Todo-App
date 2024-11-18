@@ -1,2 +1,2 @@
-CLass based Structure + Local Storage 
+Class based Structure + Local Storage 
 Enjoy!
