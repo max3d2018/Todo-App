@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>TO-DO-LIST</title>
+
+    <style>
+      .done {
+        background-color: greenyellow;
+      }
+
+      .completed {
+        text-decoration: line-through;
+      }
+    </style>
+  </head>
+  <body class="p-5 relative">
+    <div
+      id="alert"
+      class="bg-yellow-300 rounded-xl shadow-lg shadow-slate-200/50 p-4 text-center capitalize text-red-700 tracking-normal font-semibold text-sm absolute top-5 inset-x-10 hidden transition-all"
+    ></div>
+    <div class="container max-w-lg mx-auto">
+      <h1
+        class="mt-16 text-3xl bg-blue-300 p-3 rounded-xl text-center text-bold"
+      >
+        To Do List
+      </h1>
+      <div class="flex flex-row space-x-5 p-5 items-center w-screen">
+        <label for="taskInput" class="flex">Task</label>
+        <input
+          type="text"
+          id="taskInput"
+          class="border border-blue-500 mx-auto p-1 px-2"
+        />
+
+        <button id="add-button" class="outline outline-blue-100 px-1.5">
+          Add Task
+        </button>
+      </div>
+      <ul id="list" class="list p-4 space-y-4"></ul>
+    </div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
