@@ -2,47 +2,126 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.tailwindcss.com"></script>
-    <title>TO-DO-LIST</title>
-
     <style>
-      .done {
-        background-color: greenyellow;
+      @import url("https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;700&display=swap");
+      body {
+        font-family: "Vazirmatn", sans-serif;
       }
-
+      .done {
+        @apply bg-green-100;
+      }
       .completed {
-        text-decoration: line-through;
+        @apply line-through text-gray-500;
       }
     </style>
+    <title>لیست کارها</title>
   </head>
-  <body class="p-5 relative">
+  <body class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-6">
+    <!-- Alert Component -->
     <div
       id="alert"
-      class="bg-yellow-300 rounded-xl shadow-lg shadow-slate-200/50 p-4 text-center capitalize text-red-700 tracking-normal font-semibold text-sm absolute top-5 inset-x-10 hidden transition-all"
-    ></div>
-    <div class="container max-w-lg mx-auto">
-      <h1
-        class="mt-16 text-3xl bg-blue-300 p-3 rounded-xl text-center text-bold"
+      class="fixed top-6 left-1/2 transform -translate-x-1/2 max-w-md w-full opacity-0 transition-opacity duration-300 z-50 hidden"
+    >
+      <div
+        class="bg-white border-l-4 border-yellow-400 rounded-lg shadow-lg p-4"
       >
-        To Do List
-      </h1>
-      <div class="flex flex-row space-x-5 p-5 items-center w-screen">
-        <label for="taskInput" class="flex">Task</label>
-        <input
-          type="text"
-          id="taskInput"
-          class="border border-blue-500 mx-auto p-1 px-2"
-        />
-
-        <button id="add-button" class="outline outline-blue-100 px-1.5">
-          Add Task
-        </button>
+        <div class="flex items-center">
+          <div class="flex-shrink-0">
+            <svg
+              class="h-5 w-5 text-yellow-400"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+                clip-rule="evenodd"
+              />
+            </svg>
+          </div>
+          <div class="ml-3">
+            <p class="text-sm text-gray-700 font-medium" id="alertText"></p>
+          </div>
+        </div>
       </div>
-      <ul id="list" class="list p-4 space-y-4"></ul>
     </div>
 
-    <script src="./app.js"></script>
+    <div class="container max-w-2xl mx-auto">
+      <!-- Header -->
+      <div class="text-center mb-12">
+        <h1 class="text-4xl font-bold text-gray-800 mb-2">لیست کارها</h1>
+        <p class="text-gray-600">کارهای روزانه خود را مدیریت کنید</p>
+      </div>
+
+      <!-- Todo Input Form -->
+      <div class="bg-white rounded-2xl shadow-lg p-6 mb-8">
+        <div class="flex flex-col sm:flex-row gap-4">
+          <div class="flex-1">
+            <label
+              for="taskInput"
+              class="block text-sm font-medium text-gray-700 mb-2"
+              >عنوان کار</label
+            >
+            <input
+              type="text"
+              id="taskInput"
+              class="w-full px-4 py-2.5 text-gray-700 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-colors duration-200"
+              placeholder="کار جدید را وارد کنید..."
+            />
+          </div>
+          <button
+            id="add-button"
+            class="px-6 py-2.5 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 transition duration-200 ease-in-out self-end"
+          >
+            افزودن کار
+          </button>
+        </div>
+      </div>
+
+      <!-- Todo List -->
+      <div class="bg-white rounded-2xl shadow-lg p-6">
+        <h2 class="text-xl font-semibold text-gray-800 mb-4">لیست کارها</h2>
+        <ul id="list" class="space-y-3">
+          <!-- Tasks will be added here dynamically -->
+        </ul>
+      </div>
+    </div>
+
+    <script src="app.js">
+      // Add this to your existing JavaScript to style dynamically added items
+      function createTaskElement(taskText) {
+        const li = document.createElement("li");
+        li.className =
+          "group flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-200";
+
+        const textSpan = document.createElement("span");
+        textSpan.className = "text-gray-700";
+        textSpan.textContent = taskText;
+
+        const buttonsDiv = document.createElement("div");
+        buttonsDiv.className =
+          "flex space-x-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200";
+
+        const doneButton = document.createElement("button");
+        doneButton.className =
+          "px-3 py-1 text-sm text-green-600 hover:bg-green-100 rounded transition-colors duration-200";
+        doneButton.textContent = "انجام شد";
+
+        const deleteButton = document.createElement("button");
+        deleteButton.className =
+          "px-3 py-1 text-sm text-red-600 hover:bg-red-100 rounded transition-colors duration-200";
+        deleteButton.textContent = "حذف";
+
+        buttonsDiv.appendChild(doneButton);
+        buttonsDiv.appendChild(deleteButton);
+
+        li.appendChild(textSpan);
+        li.appendChild(buttonsDiv);
+
+        return li;
+      }
+    </script>
   </body>
 </html>
